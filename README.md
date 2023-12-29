@@ -1,2 +1,2 @@
-[![Spotify Playlist](https://github.com/Zaky97/RPN/raw/main/ID-CARD.png?raw=true)
+![ID-CARD](https://github.com/Zaky97/RPN/raw/main/ID-CARD.png?raw=true)
 
