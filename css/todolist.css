@@ -1,0 +1,9 @@
+#todo-table,
+.card {
+  box-shadow: 5px 5px 15px 5px #000000;
+}
+
+th {
+  font-weight: bolder;
+  text-transform: uppercase;
+}

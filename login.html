@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/login.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Welcome To Panel</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="#" class="sign-in-form">
+            <h2 class="title">Login</h2>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Email" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Kata Sandi" />
+            </div>
+            <input type="submit" value="Masuk" class="btn solid" />
+          </form>
+          <button id="lupapw">Lupa Kata Sandi?</button>
+
+          <form action="#" class="sign-up-form">
+            <h2 class="title">Register</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Nama Pengguna" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Email" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Kata Sandi" />
+            </div>
+            <input type="submit" class="btn" value="Daftar" />
+
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <div class="content">
+            <h3>Selamat Datang</h3>
+            <p>
+              Pastikan anda memiliki akun untuk masuk ke Panel
+            </p>
+            <!-- <button class="btn transparent" id="sign-up-btn">
+              Daftar
+            </button> -->
+          </div>
+          <img src="/image/log.svg" class="image" alt="" />
+        </div>
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>Sudah memiliki akun ?</h3>
+            <p>
+              Selamat datang! Masuk untuk mengakses akun Anda dan acara yang akan datang.
+            </p>
+            <button class="btn transparent" id="sign-in-btn">
+              Masuk
+            </button>
+          </div>
+          <img src="/image/register.svg" class="image" alt="" />
+        </div>
+      </div>
+
+
+      <script type="module" src="/js/login.js"></script>
+      <script src="/js/login-animation.js"></script>
+      <script type="module" src="/js/reset.js"></script>
+  </body>
+
+</html>
