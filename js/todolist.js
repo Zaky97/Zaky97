@@ -2,19 +2,13 @@
 import {
   app,
   database,
-  auth,
   ref,
   push,
   onValue,
   remove,
   update,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
 } from "./firebase.js";
 
-// SweetAlert
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoTable = document.getElementById("todo-table");
@@ -68,18 +62,18 @@ const deleteTask = (taskId) => {
 // Function to edit a task in Firebase
 const editTask = (taskId, newTask) => {
   const taskRef = ref(database, `tasks/${taskId}`);
-  update(taskRef, {
+  return update(taskRef, {
     task: newTask,
   })
     .then(() => {
       console.log("Task updated successfully!");
       showSuccessAlert();
-      // Refresh the tasks after successful update
-      refreshTasks();
+      return Promise.resolve(); // Resolve the promise for SweetAlert preConfirm
     })
     .catch((error) => {
       console.error("Error updating task: ", error);
       showErrorAlert();
+      return Promise.reject(); // Reject the promise for SweetAlert preConfirm
     });
 };
 
@@ -88,6 +82,26 @@ const refreshTasks = () => {
   const tasksRef = ref(database, "tasks");
   onValue(tasksRef, (snapshot) => {
     renderTasks(snapshot);
+  });
+};
+
+// Function to show SweetAlert for editing a task
+const showEditDialog = (taskId) => {
+  Swal.fire({
+    title: "Edit Task",
+    input: "text",
+    inputPlaceholder: "Enter new task",
+    inputValue: "",
+    showCancelButton: true,
+    confirmButtonText: "Save",
+    cancelButtonText: "Cancel",
+    preConfirm: (newTask) => {
+      return editTask(taskId, newTask.trim());
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      refreshTasks(); // Refresh tasks after successful edit
+    }
   });
 };
 
@@ -133,10 +147,7 @@ const renderTasks = (snapshot) => {
   editButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const taskId = button.getAttribute("data-task-id");
-      const newTask = prompt("Edit task:");
-      if (newTask && newTask.trim() !== "") {
-        editTask(taskId, newTask.trim());
-      }
+      showEditDialog(taskId);
     });
   });
 
