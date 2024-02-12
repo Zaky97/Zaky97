@@ -198,3 +198,20 @@ html[data-bs-theme="dark"] .theme-toggle .fa-moon {
 html[data-bs-theme="light"] .theme-toggle .fa-sun {
   display: none;
 }
+
+@media (max-width: 1200px) {
+  .wrapper {
+    max-width: 1500px; /* Sesuaikan dengan lebar maksimum yang diinginkan */
+    margin: 0 auto; /* Tengahkan wrapper */
+  }
+
+  #sidebar {
+    max-width: 264px; /* Biarkan tetap tetap dengan lebar sidebar */
+    min-width: 264px;
+  }
+
+  .main {
+    flex-grow: 1; /* Biarkan konten utama mengisi sisa ruang */
+    overflow: auto; /* Aktifkan overflow jika konten lebih panjang */
+  }
+}
