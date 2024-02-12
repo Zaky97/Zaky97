@@ -11,7 +11,7 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
-} from "firebase.js";
+} from "./firebase.js";
 
 // Function to reset password
 const resetPassword = async (email) => {

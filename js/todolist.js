@@ -1,5 +1,18 @@
 // Firebase
-import { app, database, ref, push, onValue, remove, update } from "firebase.js";
+import {
+  app,
+  database,
+  auth,
+  ref,
+  push,
+  onValue,
+  remove,
+  update,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+} from "./firebase.js";
 
 // SweetAlert
 import Swal from "sweetalert2";

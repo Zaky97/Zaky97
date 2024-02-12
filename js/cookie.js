@@ -11,7 +11,7 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
-} from "firebase.js";
+} from "./firebase.js";
 
 // Function to get cookie by name
 function getCookie(name) {

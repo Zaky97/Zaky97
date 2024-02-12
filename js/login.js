@@ -11,7 +11,7 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
-} from "firebase.js";
+} from "./firebase.js";
 
 const signUpAndSendEmailVerification = async (email, password) => {
   try {
