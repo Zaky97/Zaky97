@@ -38,7 +38,7 @@ const addTask = (task) => {
   const year = currentDate.getFullYear().toString().slice(-2); // Get last 2 digits of the year
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because January is 0
   const day = currentDate.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
+  const formattedDate = `${day}-${month}-${year}`;
 
   push(ref(database, "tasks"), {
     task: task,
