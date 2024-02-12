@@ -1,22 +1,30 @@
-// firebase
-import {
-  app,
-  database,
-  auth,
-  ref,
-  push,
-  onValue,
-  remove,
-  update,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
-} from "firebase.js";
+// Firebase
+import { app, database, ref, push, onValue, remove, update } from "firebase.js";
+
+// SweetAlert
+import Swal from "sweetalert2";
 
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoTable = document.getElementById("todo-table");
+
+// Function to show SweetAlert for successful task update
+const showSuccessAlert = () => {
+  Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: "Task updated successfully!",
+  });
+};
+
+// Function to show SweetAlert for error task update
+const showErrorAlert = () => {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "Error updating task!",
+  });
+};
 
 // Function to add a new task to Firebase
 const addTask = (task) => {
@@ -29,7 +37,21 @@ const addTask = (task) => {
 
 // Function to delete a task from Firebase
 const deleteTask = (taskId) => {
-  remove(ref(database, `tasks/${taskId}`));
+  remove(ref(database, `tasks/${taskId}`))
+    .then(() => {
+      // Show success alert after task is deleted
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Your task has been deleted.",
+      });
+      // Refresh the tasks after successful deletion
+      refreshTasks();
+    })
+    .catch((error) => {
+      console.error("Error deleting task: ", error);
+      showErrorAlert();
+    });
 };
 
 // Function to edit a task in Firebase
@@ -40,10 +62,22 @@ const editTask = (taskId, newTask) => {
   })
     .then(() => {
       console.log("Task updated successfully!");
+      showSuccessAlert();
+      // Refresh the tasks after successful update
+      refreshTasks();
     })
     .catch((error) => {
       console.error("Error updating task: ", error);
+      showErrorAlert();
     });
+};
+
+// Function to refresh tasks after update/delete
+const refreshTasks = () => {
+  const tasksRef = ref(database, "tasks");
+  onValue(tasksRef, (snapshot) => {
+    renderTasks(snapshot);
+  });
 };
 
 // Function to render tasks
@@ -100,7 +134,20 @@ const renderTasks = (snapshot) => {
   deleteButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const taskId = button.getAttribute("data-task-id");
-      deleteTask(taskId);
+      // Show confirmation dialog before deleting task
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this task!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteTask(taskId);
+        }
+      });
     });
   });
 };
