@@ -15,8 +15,6 @@ import {
 } from "./firebase.js";
 
 // SweetAlert
-import Swal from "sweetalert2";
-
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoTable = document.getElementById("todo-table");
