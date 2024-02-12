@@ -1,10 +1,17 @@
 import {
-  getAuth,
-  sendPasswordResetEmail,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-// Firebase initialization
-const auth = getAuth();
+  app,
+  database,
+  auth,
+  ref,
+  push,
+  onValue,
+  remove,
+  update,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+} from "firebase.js";
 
 // Function to reset password
 const resetPassword = async (email) => {
