@@ -32,7 +32,6 @@ const showErrorAlert = () => {
 };
 
 // Function to add a new task to Firebase
-// Function to add a new task to Firebase
 const addTask = (task) => {
   const currentDate = new Date();
   const year = currentDate.getFullYear().toString().slice(-2); // Get last 2 digits of the year
