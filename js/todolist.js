@@ -2,13 +2,21 @@
 import {
   app,
   database,
+  auth,
   ref,
   push,
   onValue,
   remove,
   update,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
 } from "./firebase.js";
 
+// SweetAlert
+
+// HTML elements
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoTable = document.getElementById("todo-table");
@@ -33,9 +41,15 @@ const showErrorAlert = () => {
 
 // Function to add a new task to Firebase
 const addTask = (task) => {
+  const currentDate = new Date();
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because January is 0
+  const year = currentDate.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+  const formattedDate = `${day}-${month}-${year}`;
+
   push(ref(database, "tasks"), {
     task: task,
-    date: new Date().toISOString().slice(0, 10), // Today's date
+    date: formattedDate,
     completed: false,
   });
 };
@@ -62,18 +76,18 @@ const deleteTask = (taskId) => {
 // Function to edit a task in Firebase
 const editTask = (taskId, newTask) => {
   const taskRef = ref(database, `tasks/${taskId}`);
-  return update(taskRef, {
+  update(taskRef, {
     task: newTask,
   })
     .then(() => {
       console.log("Task updated successfully!");
       showSuccessAlert();
-      return Promise.resolve(); // Resolve the promise for SweetAlert preConfirm
+      // Refresh the tasks after successful update
+      refreshTasks();
     })
     .catch((error) => {
       console.error("Error updating task: ", error);
       showErrorAlert();
-      return Promise.reject(); // Reject the promise for SweetAlert preConfirm
     });
 };
 
@@ -82,26 +96,6 @@ const refreshTasks = () => {
   const tasksRef = ref(database, "tasks");
   onValue(tasksRef, (snapshot) => {
     renderTasks(snapshot);
-  });
-};
-
-// Function to show SweetAlert for editing a task
-const showEditDialog = (taskId) => {
-  Swal.fire({
-    title: "Edit Task",
-    input: "text",
-    inputPlaceholder: "Enter new task",
-    inputValue: "",
-    showCancelButton: true,
-    confirmButtonText: "Save",
-    cancelButtonText: "Cancel",
-    preConfirm: (newTask) => {
-      return editTask(taskId, newTask.trim());
-    },
-  }).then((result) => {
-    if (result.isConfirmed) {
-      refreshTasks(); // Refresh tasks after successful edit
-    }
   });
 };
 
@@ -147,7 +141,10 @@ const renderTasks = (snapshot) => {
   editButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const taskId = button.getAttribute("data-task-id");
-      showEditDialog(taskId);
+      const newTask = prompt("Edit task:");
+      if (newTask && newTask.trim() !== "") {
+        editTask(taskId, newTask.trim());
+      }
     });
   });
 
