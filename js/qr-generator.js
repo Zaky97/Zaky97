@@ -1,34 +1,27 @@
-// qr-generator.js
+const urlInput = document.getElementById("urlInput");
+const qrElement = document.getElementById("img");
 
-// Ambil elemen input teks dan tombol generate
-const inputText = document.getElementById("inputText");
-const generateButton = document.getElementById("generateButton");
+function QrGen() {
+  try {
+    const url = urlInput.value.trim();
+    
+    // Validate URL
+    if (url === "") {
+      throw new Error("URL cannot be empty");
+    }
 
-// Tambahkan event listener untuk saat tombol generate ditekan
-generateButton.addEventListener("click", generateQRCode);
+    // Sanitize URL to prevent XSS
+    const sanitizedUrl = encodeURI(url);
 
-// Fungsi untuk menghasilkan QR Code
-function generateQRCode() {
-  // Ambil teks dari input
-  const text = inputText.value;
+    // Generate QR code API URL
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${sanitizedUrl}&size=400x400`;
 
-  // Periksa apakah input kosong
-  if (text === "") {
-    alert("Please enter some text to generate QR code.");
-    return;
+    // Set QR code image
+    qrElement.innerHTML = `<img src="${qrApiUrl}" alt="QR Code" />`;
+  } catch(error) {
+    // Display error message to the user
+    console.error("Error generating QR code:", error.message);
+    // Optionally, you can display an error message on the page
+    // errorMessageElement.textContent = "Error generating QR code: " + error.message;
   }
-
-  // Hapus QR Code yang lama jika ada
-  const qrCodeDiv = document.getElementById("qrcode");
-  qrCodeDiv.innerHTML = "";
-
-  // Buat instance QRCode dari library QRCode.js
-  const qr = new QRCode(qrCodeDiv, {
-    text: text,
-    width: 256,
-    height: 256,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H,
-  });
 }
