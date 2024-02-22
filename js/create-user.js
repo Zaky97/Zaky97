@@ -48,17 +48,6 @@ function displayAccounts() {
   });
 }
 
-// Function to delete a user
-function deleteUser(userId) {
-  remove(ref(database, "users/" + userId))
-    .then(() => {
-      console.log("User deleted successfully");
-    })
-    .catch((error) => {
-      console.error("Error deleting user:", error);
-    });
-}
-
 // Event listener for the form submission
 document
   .getElementById("createUserForm")
