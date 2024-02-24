@@ -19,9 +19,5 @@ function QrGen() {
     // Set QR code image
     qrElement.innerHTML = `<img src="${qrApiUrl}" alt="QR Code" />`;
   } catch(error) {
-    // Display error message to the user
-    console.error("Error generating QR code:", error.message);
-    // Optionally, you can display an error message on the page
-    // errorMessageElement.textContent = "Error generating QR code: " + error.message;
   }
 }

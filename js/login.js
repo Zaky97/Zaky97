@@ -16,7 +16,7 @@ const signIn = async (email, password) => {
       icon: "success",
       title: "Login Berhasil!",
       text: "Anda akan dialihkan ke halaman utama dalam 2 detik.",
-      timer: 2000,
+      timer: 6000,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
